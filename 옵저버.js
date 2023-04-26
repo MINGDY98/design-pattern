@@ -5,9 +5,6 @@ var WeatherData = /** @class */ (function () {
         this.humidity = "";
         this.pressure = "";
     }
-    // constructor(observers : Observer[]) {
-    //   this.observers = observers;
-    // }
     WeatherData.prototype.registerObserver = function (observer) {
         this.observers.push(observer);
     };
@@ -20,7 +17,7 @@ var WeatherData = /** @class */ (function () {
     WeatherData.prototype.notifyObservers = function () {
         for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
             var observer = _a[_i];
-            observer.update(this.temperature, this.humidity, this.pressure);
+            observer.update();
         }
     };
     WeatherData.prototype.measurementsChanged = function () {
@@ -32,6 +29,15 @@ var WeatherData = /** @class */ (function () {
         this.pressure = pressure;
         this.measurementsChanged();
     };
+    WeatherData.prototype.getTemperature = function () {
+        return this.temperature;
+    };
+    WeatherData.prototype.getHumidity = function () {
+        return this.humidity;
+    };
+    WeatherData.prototype.getPressure = function () {
+        return this.pressure;
+    };
     return WeatherData;
 }());
 var CurrentConditionsDisplay = /** @class */ (function () {
@@ -42,10 +48,10 @@ var CurrentConditionsDisplay = /** @class */ (function () {
         this.weatherData = weatherData;
         weatherData.registerObserver(this);
     }
-    CurrentConditionsDisplay.prototype.update = function (temp, humidity, pressure) {
-        this.temperature = temp;
-        this.humidity = humidity;
-        this.pressure = pressure;
+    CurrentConditionsDisplay.prototype.update = function () {
+        this.temperature = weatherData.getTemperature();
+        this.humidity = weatherData.getHumidity();
+        this.pressure = weatherData.getPressure();
         this.display();
     };
     CurrentConditionsDisplay.prototype.display = function () {

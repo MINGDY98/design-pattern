@@ -23,7 +23,7 @@ class WeatherData implements Subject {
 
   notifyObservers(): void {
     for (const observer of this.observers) {
-      observer.update(this.temperature, this.humidity, this.pressure);
+      observer.update();
     }
   }
 
@@ -38,10 +38,22 @@ class WeatherData implements Subject {
 
     this.measurementsChanged();
   }
+
+  getTemperature() {
+    return this.temperature;
+  }
+
+  getHumidity() {
+    return this.humidity;
+  }
+
+  getPressure() {
+    return this.pressure;
+  }
 }
 
 interface Observer {
-  update(temp: string, humidity: string, pressure: string): void;
+  update(): void;
 }
 
 interface DisplayElement {
@@ -59,10 +71,10 @@ class CurrentConditionsDisplay implements Observer, DisplayElement {
     weatherData.registerObserver(this);
   }
 
-  update(temp: string, humidity: string, pressure: string): void {
-    this.temperature = temp;
-    this.humidity = humidity;
-    this.pressure = pressure;
+  update(): void {
+    this.temperature = weatherData.getTemperature();
+    this.humidity = weatherData.getHumidity();
+    this.pressure = weatherData.getPressure();
     this.display();
   }
 
