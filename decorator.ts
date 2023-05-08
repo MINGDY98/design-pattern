@@ -47,9 +47,7 @@ export class Mocha extends CondimentDecorator {
     return this.beverage.getDescription() + ", 모카";
   }
 
-  /**
-   * cost - 現状の価格に費用を追加する
-   */
+
   public cost(): number {
     return this.beverage.cost() + 20;
   }
@@ -61,7 +59,7 @@ class main {
     console.log(beverage.getDescription() + beverage.cost() + " 원");
 
     let beverage2: Beverage = new HouseBlend();
-    //トッピング
+
     beverage2 = new Mocha(beverage2);
     beverage2 = new Mocha(beverage2);
     beverage2 = new Whip(beverage2);
@@ -77,16 +75,11 @@ export class Whip extends CondimentDecorator {
     this.beverage = beverage;
   }
 
-  /**
-   * getDescription - 現状の飲み物にトッピング名を追加する
-   */
+
   getDescription(): string {
     return this.beverage.getDescription() + ", ホイップ";
   }
 
-  /**
-   * cost - 現状の価格に費用を追加する
-   */
   public cost(): number {
     return 160 + this.beverage.cost();
   }
